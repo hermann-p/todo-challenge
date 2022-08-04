@@ -17,7 +17,6 @@ const ToDoItem = (
   id,
 });
 
-
 const fetchStoredToDos = () =>
   fetch(`${apiUrl}/todos`)
     .then((response) => response.json())
@@ -25,8 +24,9 @@ const fetchStoredToDos = () =>
 
 const storeToDo = (item: ToDoItem) => {
   const baseUrl = `${apiUrl}/todos`;
-  const url = item.id ? `${baseUrl}/${item.id}` : baseUrl;
-  const method = item.id ? "PUT" : "POST";
+  const updateExistingItem = !!item.id;
+  const url = updateExistingItem ? `${baseUrl}/${item.id}` : baseUrl;
+  const method = updateExistingItem ? "PUT" : "POST";
   return fetch(url, {
     headers: { "Content-Type": "application/json" },
     method,
@@ -55,16 +55,18 @@ const ItemEditor = ({ item, onCancel, onSubmit }: ItemEditorProps) => {
         type="text"
         value={text}
         onChange={handleChange}
-      /><div className='input__buttons'>
-      <button className="editor__cancel" onClick={onCancel}>
-        Cancel
-      </button>
-      <button
-        className="editor__submit"
-        onClick={() => onSubmit({ ...item, text })}
-      >
-        Save
-      </button></div>
+      />
+      <div className="input__buttons">
+        <button className="editor__cancel" onClick={onCancel}>
+          Cancel
+        </button>
+        <button
+          className="editor__submit"
+          onClick={() => onSubmit({ ...item, text })}
+        >
+          Save
+        </button>
+      </div>
     </div>
   );
 };
@@ -83,15 +85,19 @@ const ItemView = ({ item, onChange, onDelete }: ItemViewProps) => {
     closeEditor();
   };
   const toggleState = () => {
-    const state = item.state === 'done' ? 'open' : 'done'
-    return handleChange ({...item, state})
-  }
+    const state = item.state === "done" ? "open" : "done";
+    return handleChange({ ...item, state });
+  };
 
-  const itemClass = `item ${item.state === 'done' ? 'item--done' : 'item--open'}`
+  const itemClass = `item ${
+    item.state === "done" ? "item--done" : "item--open"
+  }`;
 
   return (
     <li className={itemClass}>
-      <button className="item__toggle-state" onClick = {toggleState}>{item.state}</button>
+      <button className="item__toggle-state" onClick={toggleState}>
+        {item.state}
+      </button>
       {editMode ? (
         <ItemEditor
           item={item}
