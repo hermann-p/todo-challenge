@@ -1,19 +1,23 @@
 {
   description = "Simply package MetalCar's ToDo-challenge";
 
-  inputs = { flake-utils.url = "github:numtide/flake-utils"; };
+  inputs = {
+    flake-utils.url = "github:numtide/flake-utils";
+    dream2nix.url = "github:nix-community/dream2nix";
+  };
 
-  outputs = { self, nixpkgs, flake-utils }:
-    flake-utils.lib.eachDefaultSystem (system:
-      let
-        pkgs = nixpkgs.legacyPackages.${system};
-        root = builtins.toString ./.;
+  outputs = { self, nixpkgs, flake-utils, dream2nix }:
+    (flake-utils.lib.eachDefaultSystem (system:
+      let pkgs = import nixpkgs { inherit system; };
       in {
-        packages.default = { };
-
         devShell =
           pkgs.mkShell { buildInputs = with pkgs; [ nodejs-16_x esbuild ]; };
-
-      });
-
+      }));
+  # // (let pkgs = import nixpkgs { system = "x86_64-linux"; };
+  #   in dream2nix.lib.makeFlakeOutputs {
+  #     systems = [ "x86_64-linux" ];
+  #     config.projectRoot = ./.;
+  #     source = ./.;
+  #     settings = [{ subsystemInfo.nodejs = 16; }];
+  #   });
 }

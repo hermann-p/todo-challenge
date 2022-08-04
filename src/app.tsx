@@ -5,12 +5,6 @@ import { createRoot } from "react-dom/client";
 const apiUrl = `http://localhost:8000`;
 
 type Effect<T> = (_: T) => void;
-const effect =
-  <T,>(fx: Effect<T>) =>
-  (x: T): T => {
-    fx(x);
-    return x;
-  };
 
 type ToDoItem = { state: "done" | "open"; text: string; id: number };
 const ToDoItem = (
@@ -22,6 +16,7 @@ const ToDoItem = (
   state,
   id,
 });
+
 
 const fetchStoredToDos = () =>
   fetch(`${apiUrl}/todos`)
@@ -60,18 +55,16 @@ const ItemEditor = ({ item, onCancel, onSubmit }: ItemEditorProps) => {
         type="text"
         value={text}
         onChange={handleChange}
-      />
-      <div className="input__buttons">
-        <button className="editor__cancel" onClick={onCancel}>
-          Cancel
-        </button>
-        <button
-          className="editor__submit"
-          onClick={() => onSubmit({ ...item, text })}
-        >
-          Save
-        </button>
-      </div>
+      /><div className='input__buttons'>
+      <button className="editor__cancel" onClick={onCancel}>
+        Cancel
+      </button>
+      <button
+        className="editor__submit"
+        onClick={() => onSubmit({ ...item, text })}
+      >
+        Save
+      </button></div>
     </div>
   );
 };
@@ -90,19 +83,15 @@ const ItemView = ({ item, onChange, onDelete }: ItemViewProps) => {
     closeEditor();
   };
   const toggleState = () => {
-    const state = item.state === "done" ? "open" : "done";
-    return handleChange({ ...item, state });
-  };
+    const state = item.state === 'done' ? 'open' : 'done'
+    return handleChange ({...item, state})
+  }
 
-  const itemClass = `item ${
-    item.state === "done" ? "item--done" : "item--open"
-  }`;
+  const itemClass = `item ${item.state === 'done' ? 'item--done' : 'item--open'}`
 
   return (
     <li className={itemClass}>
-      <button className="item__toggle-state" onClick={toggleState}>
-        {item.state}
-      </button>
+      <button className="item__toggle-state" onClick = {toggleState}>{item.state}</button>
       {editMode ? (
         <ItemEditor
           item={item}
@@ -175,7 +164,7 @@ const App = () => {
   const loadItemsFromServer = () =>
     fetchStoredToDos()
       .then(setItems)
-      .then(effect<ToDoItem[]>(() => setLoading(false)));
+      .then(() => setLoading(false));
 
   const saveItem = (item: ToDoItem) =>
     storeToDo(item).then(loadItemsFromServer);
