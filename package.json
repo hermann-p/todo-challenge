@@ -1,0 +1,23 @@
+{
+  "name": "todo-challenge",
+  "version": "0.1.0",
+  "description": "",
+  "author": "Hermann",
+  "license": "MIT",
+  "scripts": {
+    "build": "esbuild src/app.tsx --bundle --minify --outdir=www/js",
+    "dev": "esbuild src/app.tsx --bundle --servedir=www --outdir=www/js",
+    "start": "json-server db.json --static ./www --port 8000"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.15",
+    "@types/react-dom": "^18.0.6",
+    "@types/uuid": "^8.3.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "uuid": "^8.3.2"
+  },
+  "dependencies": {
+    "json-server": "^0.17.0"
+  }
+}

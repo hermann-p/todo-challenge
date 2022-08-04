@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>The List.</title>
+    <!-- <link
+         rel="stylesheet"
+         href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css"
+         /> -->
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css" />
+    <style>
+      body {
+        text-align: center;
+      }
+
+      .items__list {
+        padding: 0;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .item {
+        display: flex;
+        width: 500px;
+
+        padding: 6px;
+        justify-content: space-between;
+        align-items: center;
+        border-radius: 6px;
+      }
+      .item--done {
+        color: #777;
+      }
+      .item--done .item__toggle-state {
+        color: white;
+        background-color: darkgreen;
+      }
+      .item__delete:hover {
+        background-color: darkred;
+      }
+
+      .item__text {
+        flex: 1;
+        padding: 0 12px;
+      }
+      .item__text:hover {
+        cursor: pointer;
+      }
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <body>
+    <div id="app-root" />
+  </body>
+  <script src="/js/app.js"></script>
+</html>
