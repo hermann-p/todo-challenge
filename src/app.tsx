@@ -6,7 +6,7 @@ const apiUrl = `http://localhost:8000`;
 
 type Effect<T> = (_: T) => void;
 
-type ToDoItem = { state: "done" | "open"; text: string; id: number };
+type ToDoItem = { state: "done" | "open"; text: string; id?: number };
 const ToDoItem = (
   text: string,
   id?: number,
